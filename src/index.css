@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+/* --- DESIGN SYSTEM TOKENS --- */
+:root {
+    /* Palette: "Vintage Paperback" */
+    --c-bg-main: #f2f0e9;
+    --c-bg-card: #ffffff;
+    --c-text-main: #2b2d42;
+    --c-text-muted: #6d6a75;
+
+    --c-primary: #e76f51;
+    --c-primary-hover: #d65a3b;
+
+    --c-secondary: #2a9d8f;
+    --c-secondary-hover: #218c7e;
+
+    --c-accent: #e9c46a;
+
+    --c-border: #2b2d42;
+
+    --border-width: 2px;
+    --radius-main: 12px;
+    --shadow-hard: 4px 4px 0px 0px var(--c-border);
+    --shadow-hard-sm: 2px 2px 0px 0px var(--c-border);
+}
+
+/* Base Typography */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--c-bg-main);
+    color: var(--c-text-main);
+    margin: 0;
+    min-height: 100vh;
+}
+
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* --- INTERACTION CLASSES --- */
+.retro-press {
+    border: var(--border-width) solid var(--c-border);
+    box-shadow: var(--shadow-hard-sm);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.retro-press:hover {
+    filter: brightness(1.05);
+}
+
+.retro-press:active {
+    box-shadow: none !important;
+    transform: translate(2px, 2px) !important;
+}
+
+.retro-press-lg {
+    box-shadow: var(--shadow-hard);
+}
+
+.retro-press-lg:active {
+    box-shadow: none !important;
+    transform: translate(4px, 4px) !important;
+}
+
+.retro-shadow {
+    box-shadow: var(--shadow-hard);
+    border: var(--border-width) solid var(--c-border);
+}
+
+.retro-shadow-sm {
+    box-shadow: var(--shadow-hard-sm);
+    border: var(--border-width) solid var(--c-border);
+}

@@ -20,7 +20,8 @@ SRT Converter - a React 19 app that converts subtitle files (.srt) to VTT, TXT, 
 **Components** (`src/components/`):
 - `FileUpload.jsx` - Drag-and-drop file input for .srt files
 - `ResultItem.jsx` - Displays individual file with SRT/VTT/TXT/PDF download buttons
-- `CodeAccordion.jsx` - Expandable "View Source Logic" section
+- `InfoSection.jsx` - Expandable "How It Works" accordion with output format descriptions, tips, and limitations
+- `CodeAccordion.jsx` - Expandable "View Source Logic" section (currently hidden)
 
 **Utilities** (`src/utils/`):
 - `srtConverter.js` - Core conversion logic: SRT→VTT (timecode format), SRT→TXT (smart paragraph grouping), PDF generation via jsPDF

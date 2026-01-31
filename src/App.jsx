@@ -119,7 +119,7 @@ function App() {
                     )}
 
                     {/* Code Accordion */}
-                    <CodeAccordion />
+                   {/* <CodeAccordion /> */}
                 </div>
             </div>
 

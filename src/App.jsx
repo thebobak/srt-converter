@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FileUpload } from './components/FileUpload';
 import { ResultItem } from './components/ResultItem';
 import { CodeAccordion } from './components/CodeAccordion';
+import { InfoSection } from './components/InfoSection';
 import { processFile } from './utils/srtConverter';
 import { downloadZip } from './utils/zipDownload';
 import './App.css';
@@ -78,6 +79,9 @@ function App() {
                             <span>All data is processed in your local browser!</span>
                         </div>
                     )}
+
+                    {/* Info Section */}
+                    {!showResults && <InfoSection />}
 
                     {/* Status message */}
                     <p className="text-sm font-bold text-[var(--c-primary)] mb-4 h-6 font-mono">

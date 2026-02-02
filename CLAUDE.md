@@ -30,3 +30,18 @@ SRT Converter - a React 19 app that converts subtitle files (.srt) to VTT, TXT, 
 ## Styling
 
 Uses Tailwind CSS v4 with CSS custom properties for the "Vintage Paperback" retro theme. Design tokens defined in `src/index.css` (colors, shadows, border radius). Interactive button styles use `.retro-press` and `.retro-shadow` utility classes.
+
+## Documentation
+
+- `README.md` - Project overview, features, tech stack, and vibe coding background
+- `PRD.md` - Product Requirements Document with:
+  - Functional requirements (FR-1 through FR-6) with implementation status
+  - Non-functional requirements (privacy, performance, compatibility)
+  - Technical architecture and data flow
+  - Current limitations
+  - Future enhancements backlog (prioritized)
+  - Use PRD.md as the baseline when planning new features
+
+## Project Background
+
+This was a "vibe coding" experiment—built using Gemini and Claude Code to explore AI-assisted development. The app solves a real workflow need: converting SRT caption files from Adobe Premiere into PDFs and VTTs.

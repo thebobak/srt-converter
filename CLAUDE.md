@@ -31,6 +31,28 @@ SRT Converter - a React 19 app that converts subtitle files (.srt) to VTT, TXT, 
 
 Uses Tailwind CSS v4 with CSS custom properties for the "Vintage Paperback" retro theme. Design tokens defined in `src/index.css` (colors, shadows, border radius). Interactive button styles use `.retro-press` and `.retro-shadow` utility classes.
 
+## Accessibility
+
+The app follows WCAG guidelines for keyboard navigation and screen reader support:
+
+**Keyboard Navigation:**
+- All interactive elements are focusable via Tab key
+- Visible focus indicators using `focus-visible` (3px orange outline matching theme)
+- File upload shows focus ring via `focus-within` on parent wrapper
+- Accordions toggle with Enter/Space keys
+
+**Screen Reader Support:**
+- Status messages use `aria-live="polite"` for announcements
+- Decorative icons have `aria-hidden="true"`
+- Download buttons have descriptive `aria-label` (e.g., "Download video1 as PDF")
+- Semantic HTML: `<main>`, `<section>`, `<ul>`/`<li>` for proper structure
+- Button groups use `role="group"` with `aria-label`
+
+**Focus Styles** (`src/index.css`):
+- `:focus-visible` - Global focus ring
+- `.retro-press:focus-visible` - Interactive button focus
+- `summary:focus-visible` - Accordion trigger focus
+
 ## Documentation
 
 - `README.md` - Project overview, features, tech stack, and vibe coding background

@@ -51,7 +51,7 @@ function App() {
                 </div>
 
                 {/* Content Area */}
-                <div className="p-8">
+                <main className="p-8" role="main" aria-label="SRT file converter">
                     <h1 className="text-4xl font-bold mb-3 text-[var(--c-text-main)] tracking-tight mt-2">
                         BOBAK'S SRT CONVERTER
                     </h1>
@@ -73,7 +73,7 @@ function App() {
                     {/* Privacy Disclaimer */}
                     {!showResults && (
                         <div className="flex items-center justify-center gap-2 text-xs font-mono text-[var(--c-text-muted)] mb-6 uppercase tracking-tight">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                             </svg>
                             <span>All data is processed in your local browser!</span>
@@ -83,19 +83,25 @@ function App() {
                     {/* Info Section */}
                     {!showResults && <InfoSection />}
 
-                    {/* Status message */}
-                    <p className="text-sm font-bold text-[var(--c-primary)] mb-4 h-6 font-mono">
+                    {/* Status message - live region for screen readers */}
+                    <p
+                        className="text-sm font-bold text-[var(--c-primary)] mb-4 h-6 font-mono"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                    >
                         {status}
                     </p>
 
                     {/* Global Actions (Download All & Reset) */}
                     {showResults && (
-                        <div className="mb-8 flex flex-wrap justify-center gap-4">
+                        <div className="mb-8 flex flex-wrap justify-center gap-4" role="group" aria-label="File actions">
                             <button
                                 onClick={handleDownloadZip}
                                 className="bg-[var(--c-primary)] text-white font-bold py-3 px-6 rounded-[var(--radius-main)] flex items-center justify-center space-x-3 text-lg retro-press retro-press-lg"
+                                aria-label={`Download all ${processedFiles.length} converted files as ZIP`}
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                                 <span>DOWNLOAD ZIP</span>
@@ -104,8 +110,9 @@ function App() {
                             <button
                                 onClick={handleReset}
                                 className="bg-white text-[var(--c-text-main)] border-2 border-[var(--c-border)] font-bold py-3 px-6 rounded-[var(--radius-main)] flex items-center justify-center space-x-3 text-lg retro-press retro-press-lg hover:bg-gray-50"
+                                aria-label="Reset and convert different files"
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                 </svg>
                                 <span>RESET</span>
@@ -115,20 +122,25 @@ function App() {
 
                     {/* Results List */}
                     {showResults && (
-                        <div className="text-left max-h-80 overflow-y-auto overflow-x-hidden border-t-2 border-[var(--c-border)] pt-6 space-y-3">
-                            {processedFiles.map((fileData, index) => (
-                                <ResultItem key={index} fileData={fileData} />
-                            ))}
-                        </div>
+                        <section
+                            className="text-left max-h-80 overflow-y-auto overflow-x-hidden border-t-2 border-[var(--c-border)] pt-6 space-y-3"
+                            aria-label={`${processedFiles.length} converted files`}
+                        >
+                            <ul className="space-y-3" role="list">
+                                {processedFiles.map((fileData, index) => (
+                                    <ResultItem key={index} fileData={fileData} />
+                                ))}
+                            </ul>
+                        </section>
                     )}
 
                     {/* Code Accordion */}
                    {/* <CodeAccordion /> */}
-                </div>
+                </main>
             </div>
 
             {/* Attribution Footer */}
-            <footer className="mt-8 text-center animate-pulse">
+            <footer className="mt-8 text-center animate-pulse" aria-label="Attribution">
                 <p className="text-[var(--c-text-muted)] text-xs font-mono uppercase tracking-widest">
                     Vibe coded by Bobak with <span className="text-[var(--c-primary)] font-bold">GEMINI</span> and <span className="text-[var(--c-primary)] font-bold">CLAUDE CODE</span>
                 </p>

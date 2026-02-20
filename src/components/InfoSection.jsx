@@ -1,13 +1,13 @@
 export function InfoSection() {
     return (
-        <div className="mt-2 mb-6 text-left max-w-lg mx-auto">
+        <section className="mt-2 mb-6 text-left max-w-lg mx-auto" aria-label="Information about the converter">
             <details className="group">
                 <summary className="flex justify-between items-center font-bold cursor-pointer list-none text-[var(--c-text-main)] hover:text-[var(--c-primary)] transition select-none">
                     <span className="flex items-center gap-2 font-mono text-sm uppercase">
-                        <span className="border border-[var(--c-border)] w-5 h-5 flex items-center justify-center rounded text-xs">i</span>
+                        <span className="border border-[var(--c-border)] w-5 h-5 flex items-center justify-center rounded text-xs" aria-hidden="true">i</span>
                         How It Works
                     </span>
-                    <span className="transition transform group-open:rotate-180 border-2 border-[var(--c-border)] rounded bg-white w-6 h-6 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(43,45,66,1)]">
+                    <span className="transition transform group-open:rotate-180 border-2 border-[var(--c-border)] rounded bg-white w-6 h-6 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(43,45,66,1)]" aria-hidden="true">
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -45,6 +45,6 @@ export function InfoSection() {
                     </div>
                 </div>
             </details>
-        </div>
+        </section>
     );
 }

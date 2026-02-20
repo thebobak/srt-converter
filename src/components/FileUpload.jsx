@@ -12,10 +12,10 @@ export function FileUpload({ onFilesSelected }) {
     };
 
     return (
-        <div className="mb-8 relative group">
+        <div className="mb-8 relative group focus-within:ring-3 focus-within:ring-[var(--c-primary)] focus-within:ring-offset-2 rounded-[var(--radius-main)]">
             <label
                 htmlFor="srtFile"
-                className="block w-full border-2 border-dashed border-[var(--c-border)] bg-[var(--c-bg-main)] rounded-[var(--radius-main)] p-10 cursor-pointer transition-all hover:bg-white hover:border-[var(--c-primary)] relative overflow-hidden"
+                className="block w-full border-2 border-dashed border-[var(--c-border)] bg-[var(--c-bg-main)] rounded-[var(--radius-main)] p-10 cursor-pointer transition-all hover:bg-white hover:border-[var(--c-primary)] focus-within:bg-white focus-within:border-[var(--c-primary)] relative overflow-hidden"
             >
                 {/* Hover Pattern Effect */}
                 <div
@@ -24,13 +24,13 @@ export function FileUpload({ onFilesSelected }) {
                 />
 
                 <div className="flex flex-col items-center relative z-10">
-                    <div className="bg-[var(--c-bg-card)] p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-200 retro-press retro-press-lg">
+                    <div className="bg-[var(--c-bg-card)] p-4 rounded-full mb-4 group-hover:scale-110 transition-transform duration-200 retro-press retro-press-lg" aria-hidden="true">
                         <svg className="w-8 h-8 text-[var(--c-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                         </svg>
                     </div>
-                    <span className="text-[var(--c-text-main)] font-bold text-lg">Drop .SRT files here</span>
-                    <span className="text-sm text-[var(--c-text-muted)] font-mono mt-2 bg-[var(--c-bg-main)] px-2 py-1 border border-[var(--c-border)] rounded">
+                    <span className="text-[var(--c-text-main)] font-bold text-lg" id="file-upload-label">Drop .SRT files here</span>
+                    <span className="text-sm text-[var(--c-text-muted)] font-mono mt-2 bg-[var(--c-bg-main)] px-2 py-1 border border-[var(--c-border)] rounded" id="file-upload-hint">
                         or click to browse
                     </span>
                 </div>
@@ -40,8 +40,10 @@ export function FileUpload({ onFilesSelected }) {
                     id="srtFile"
                     accept=".srt"
                     multiple
-                    className="hidden"
+                    className="sr-only"
                     onChange={handleChange}
+                    aria-label="Upload SRT subtitle files"
+                    aria-describedby="file-upload-label file-upload-hint"
                 />
             </label>
         </div>

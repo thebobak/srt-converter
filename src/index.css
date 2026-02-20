@@ -77,3 +77,24 @@ body {
     box-shadow: var(--shadow-hard-sm);
     border: var(--border-width) solid var(--c-border);
 }
+
+/* --- ACCESSIBILITY: FOCUS STYLES --- */
+/* Global focus-visible styles for keyboard navigation */
+:focus-visible {
+    outline: 3px solid var(--c-primary);
+    outline-offset: 2px;
+}
+
+/* Focus styles for retro-press interactive elements */
+.retro-press:focus-visible {
+    outline: 3px solid var(--c-primary);
+    outline-offset: 2px;
+    filter: brightness(1.05);
+}
+
+/* Focus styles for details/summary accordion */
+summary:focus-visible {
+    outline: 3px solid var(--c-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+}

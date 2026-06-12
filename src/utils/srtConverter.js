@@ -20,7 +20,7 @@ export function convertSrtToVtt(srtContent) {
     return vttContent;
 }
 
-function parseSrtTimestamp(timeString) {
+export function parseSrtTimestamp(timeString) {
     if (!timeString) return 0;
     const parts = timeString.trim().replace(',', '.').split(':');
     if (parts.length < 3) return 0;
@@ -34,7 +34,7 @@ function parseSrtTimestamp(timeString) {
     return (hours * 3600) + (minutes * 60) + seconds + (ms / 1000);
 }
 
-function isSentenceEnd(text) {
+export function isSentenceEnd(text) {
     if (!text) return false;
 
     const trimmed = text.trim();

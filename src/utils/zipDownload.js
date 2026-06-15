@@ -4,10 +4,11 @@ export async function downloadZip(files) {
     const zip = new JSZip();
 
     files.forEach(file => {
-        zip.file(file.originalName, file.srtContent);
-        zip.file(`${file.baseName}.vtt`, file.vttContent);
-        zip.file(`${file.baseName}.txt`, file.txtContent);
-        zip.file(`${file.baseName}.pdf`, file.pdfBlob);
+        const name = file.exportName || file.baseName;
+        zip.file(`${name}.srt`, file.srtContent);
+        zip.file(`${name}.vtt`, file.vttContent);
+        zip.file(`${name}.txt`, file.txtContent);
+        zip.file(`${name}.pdf`, file.pdfBlob);
     });
 
     const content = await zip.generateAsync({ type: "blob" });

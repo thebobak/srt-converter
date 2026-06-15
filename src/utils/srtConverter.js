@@ -117,13 +117,30 @@ export function convertSrtToSmartTxt(srtContent) {
     return paragraphs.join('\n\n');
 }
 
-export function generatePdfBlob(text, title) {
+function addPageFooter(doc, footerText) {
+    const pageHeight = doc.internal.pageSize.height;
+    const pageWidth = doc.internal.pageSize.width;
+    const margin = 20;
+
+    doc.setDrawColor(150, 150, 150);
+    doc.line(margin, pageHeight - margin - 6, pageWidth - margin, pageHeight - margin - 6);
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(8);
+    doc.setTextColor(120, 120, 120);
+    doc.text(footerText, margin, pageHeight - margin);
+
+    doc.setTextColor(0, 0, 0);
+}
+
+export function generatePdfBlob(text, title, footer = '') {
     const doc = new jsPDF();
 
     const margin = 20;
     const lineHeight = 7;
     const pageHeight = doc.internal.pageSize.height;
     const maxWidth = doc.internal.pageSize.width - (margin * 2);
+    const bottomBoundary = pageHeight - margin - (footer ? 12 : 0);
     let y = margin + 10;
 
     doc.setFont("helvetica", "bold");
@@ -139,7 +156,8 @@ export function generatePdfBlob(text, title) {
         const lines = doc.splitTextToSize(para, maxWidth);
 
         lines.forEach(line => {
-            if (y + lineHeight > pageHeight - margin) {
+            if (y + lineHeight > bottomBoundary) {
+                if (footer) addPageFooter(doc, footer);
                 doc.addPage();
                 y = margin;
             }
@@ -149,10 +167,12 @@ export function generatePdfBlob(text, title) {
         y += lineHeight;
     });
 
+    if (footer) addPageFooter(doc, footer);
+
     return doc.output('blob');
 }
 
-export async function processFile(file) {
+export async function processFile(file, footer = '') {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -162,7 +182,7 @@ export async function processFile(file) {
                 const txtContent = convertSrtToSmartTxt(srtContent);
 
                 const baseName = file.name.replace(/\.[^/.]+$/, "");
-                const pdfBlob = generatePdfBlob(txtContent, baseName);
+                const pdfBlob = generatePdfBlob(txtContent, baseName, footer);
 
                 resolve({
                     originalName: file.name,

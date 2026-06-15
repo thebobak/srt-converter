@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileUpload } from './components/FileUpload';
 import { ResultItem } from './components/ResultItem';
 import { CodeAccordion } from './components/CodeAccordion';
 import { InfoSection } from './components/InfoSection';
-import { processFile } from './utils/srtConverter';
+import { processFile, generatePdfBlob } from './utils/srtConverter';
 import { downloadZip } from './utils/zipDownload';
 import './App.css';
 
@@ -11,13 +11,19 @@ function App() {
     const [processedFiles, setProcessedFiles] = useState([]);
     const [status, setStatus] = useState('');
     const [showResults, setShowResults] = useState(false);
+    const [pdfFooter, setPdfFooter] = useState(() => localStorage.getItem('pdfFooter') ?? '');
+
+    useEffect(() => {
+        localStorage.setItem('pdfFooter', pdfFooter);
+    }, [pdfFooter]);
+    const [editedNames, setEditedNames] = useState({});
 
     const handleFilesSelected = async (files) => {
         setStatus('Processing files...');
         setShowResults(false);
 
         try {
-            const promises = files.map(file => processFile(file));
+            const promises = files.map(file => processFile(file, pdfFooter));
             const results = await Promise.all(promises);
             results.sort((a, b) => a.originalName.localeCompare(b.originalName));
 
@@ -30,14 +36,27 @@ function App() {
         }
     };
 
+    const handleNameChange = (baseName, newName) => {
+        setEditedNames(prev => ({ ...prev, [baseName]: newName }));
+    };
+
     const handleReset = () => {
         setProcessedFiles([]);
         setShowResults(false);
         setStatus('');
+        setEditedNames({});
     };
 
     const handleDownloadZip = () => {
-        downloadZip(processedFiles);
+        const filesWithEdits = processedFiles.map(file => {
+            const exportName = (editedNames[file.baseName] || file.baseName).trim() || file.baseName;
+            return {
+                ...file,
+                exportName,
+                pdfBlob: generatePdfBlob(file.txtContent, exportName, pdfFooter),
+            };
+        });
+        downloadZip(filesWithEdits);
     };
 
     return (
@@ -68,6 +87,27 @@ function App() {
                     {/* File Upload (hidden when showing results) */}
                     {!showResults && (
                         <FileUpload onFilesSelected={handleFilesSelected} />
+                    )}
+
+                    {/* PDF Footer Option */}
+                    {!showResults && (
+                        <div className="mb-4 mt-2 text-left max-w-md mx-auto">
+                            <label
+                                htmlFor="pdf-footer-input"
+                                className="block text-[10px] font-bold uppercase tracking-widest font-mono text-[var(--c-text-muted)] mb-1.5"
+                            >
+                                PDF Footer / Disclaimer
+                                <span className="ml-2 normal-case font-normal">(optional)</span>
+                            </label>
+                            <input
+                                id="pdf-footer-input"
+                                type="text"
+                                value={pdfFooter}
+                                onChange={e => setPdfFooter(e.target.value)}
+                                placeholder="e.g. Confidential — for internal use only"
+                                className="w-full px-3 py-2 text-sm font-mono bg-white border-2 border-[var(--c-border)] rounded-lg text-[var(--c-text-main)] placeholder-[var(--c-text-muted)] focus:outline-none focus:border-[var(--c-primary)]"
+                            />
+                        </div>
                     )}
 
                     {/* Privacy Disclaimer */}
@@ -128,7 +168,13 @@ function App() {
                         >
                             <ul className="space-y-3" role="list">
                                 {processedFiles.map((fileData, index) => (
-                                    <ResultItem key={index} fileData={fileData} />
+                                    <ResultItem
+                                        key={index}
+                                        fileData={fileData}
+                                        pdfFooter={pdfFooter}
+                                        editedName={editedNames[fileData.baseName] ?? fileData.baseName}
+                                        onNameChange={handleNameChange}
+                                    />
                                 ))}
                             </ul>
                         </section>

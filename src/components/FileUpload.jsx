@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export function FileUpload({ onFilesSelected }) {
     const inputRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
 
     const handleChange = (e) => {
         const files = Array.from(e.target.files);
@@ -11,11 +12,48 @@ export function FileUpload({ onFilesSelected }) {
         e.target.value = '';
     };
 
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    const handleDragEnter = (e) => {
+        e.preventDefault();
+        setIsDragging(true);
+    };
+
+    const handleDragLeave = (e) => {
+        e.preventDefault();
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+            setIsDragging(false);
+        }
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(false);
+        const files = Array.from(e.dataTransfer.files).filter(f => f.name.toLowerCase().endsWith('.srt'));
+        if (files.length > 0) {
+            onFilesSelected(files);
+        }
+    };
+
     return (
-        <div className="mb-8 relative group focus-within:ring-3 focus-within:ring-[var(--c-primary)] focus-within:ring-offset-2 rounded-[var(--radius-main)]">
+        <div
+            className="mb-8 relative group focus-within:ring-3 focus-within:ring-[var(--c-primary)] focus-within:ring-offset-2 rounded-[var(--radius-main)]"
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+        >
             <label
                 htmlFor="srtFile"
-                className="block w-full border-2 border-dashed border-[var(--c-border)] bg-[var(--c-bg-main)] rounded-[var(--radius-main)] p-10 cursor-pointer transition-all hover:bg-white hover:border-[var(--c-primary)] focus-within:bg-white focus-within:border-[var(--c-primary)] relative overflow-hidden"
+                className={`block w-full border-2 border-dashed rounded-[var(--radius-main)] p-10 cursor-pointer transition-all focus-within:bg-white focus-within:border-[var(--c-primary)] relative overflow-hidden ${
+                    isDragging
+                        ? 'bg-white border-[var(--c-primary)] scale-[1.01]'
+                        : 'border-[var(--c-border)] bg-[var(--c-bg-main)] hover:bg-white hover:border-[var(--c-primary)]'
+                }`}
             >
                 {/* Hover Pattern Effect */}
                 <div
